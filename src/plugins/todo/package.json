@@ -1,12 +1,12 @@
 {
-  "name": "cleargo-writer",
+  "name": "todo",
   "version": "0.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "cleargo-writer",
-    "description": "Description of Cleargo Writer plugin",
+    "name": "todo",
+    "description": "Description of Todo plugin",
     "kind": "plugin",
-    "displayName": "Cleargo Writer"
+    "displayName": "Todo"
   },
   "dependencies": {},
   "author": {
