@@ -1,30 +1,22 @@
-/*
- *
- * HomePage
- *
- */
+import React, { memo, useState } from "react";
+import { nanoid } from "nanoid";
+import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
+import { Illo } from "../../components/Illo";
+import { Button } from "@strapi/design-system/Button";
+import Plus from "@strapi/icons/Plus";
+import TodoModal from "../../components/TodoModal";
+import TodoCount from "../../components/TodoCount";
 
-import React ,{memo} from 'react';
-// import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
-import { Layout,BaseHeaderLayout,ContentLayout } from '@strapi/design-system';
 const HomePage = () => {
-    const [todoData, setTodoData] = React.useState([])
+  const [todoData, setTodoData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  async function addTodo(data) {
+    setTodoData([...todoData, { ...data, id: nanoid(), isDone: false }]);
+  }
+
   return (
-    // <div>
-    //   <h1>{pluginId}&apos;s HomePage</h1>
-    //   <p>Happy Strapi</p>
-    // </div>
-    // <Layout>
-    //   <BaseHeaderLayout
-    //     title="Todo Plugin"
-    //     subtitle="All your todos in one place."
-    //     as="h2"
-    //     />
-    //   <ContentLayout>
-    //   <p>Happy Strapi Coding</p>
-    // </ContentLayout>
-    // </Layout>
     <>
       <BaseHeaderLayout
         title="Todo Plugin"
@@ -33,8 +25,28 @@ const HomePage = () => {
       />
 
       <ContentLayout>
-        <h1>Hello from our Todo Plugin</h1>
+        {todoData.length === 0 ? (
+          <EmptyStateLayout
+            icon={<Illo />}
+            content="You don't have any todos yet..."
+            action={
+              <Button
+                onClick={() => setShowModal(true)}
+                variant="secondary"
+                startIcon={<Plus />}
+              >
+                Add your first todo
+              </Button>
+            }
+          />
+        ) : (
+          <>
+          <TodoCount count={todoData.length}/>
+          </>
+        )}
       </ContentLayout>
+
+      {showModal && <TodoModal setShowModal={setShowModal} addTodo={addTodo} />}
     </>
   );
 };
